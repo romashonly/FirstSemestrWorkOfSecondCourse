@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SemestrWork:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/SemestrWork_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="SemestrWork/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SemestrWork" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
