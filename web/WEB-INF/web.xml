@@ -4,27 +4,12 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+
+
     <servlet>
         <servlet-name>catalog</servlet-name>
-        <servlet-class>CatalogServlet</servlet-class>
+        <servlet-class>Servlets.CatalogServlet</servlet-class>
     </servlet>
-
-    <servlet>
-        <servlet-name>chats</servlet-name>
-        <servlet-class>ChatsServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>profile</servlet-name>
-        <servlet-class>ProfileServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>login</servlet-name>
-        <servlet-class>LoginServlet</servlet-class>
-    </servlet>
-
-
     <servlet-mapping>
         <servlet-name>
             catalog
@@ -32,8 +17,28 @@
         <url-pattern>
             /catalog
         </url-pattern>
+        <url-pattern>
+            /
+        </url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>car</servlet-name>
+        <servlet-class>Servlets.CarServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            car
+        </servlet-name>
+        <url-pattern>
+            /catalog/car
+        </url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>chats</servlet-name>
+        <servlet-class>Servlets.ChatsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>
             chats
@@ -43,6 +48,11 @@
         </url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>profile</servlet-name>
+        <servlet-class>Servlets.ProfileServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>
             profile
@@ -52,6 +62,10 @@
         </url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>Servlets.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>
             login
@@ -64,5 +78,65 @@
         </url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>registration</servlet-name>
+        <servlet-class>Servlets.RegistrationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            registration
+        </servlet-name>
+        <url-pattern>
+            /registration
+        </url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>newPost</servlet-name>
+        <servlet-class>Servlets.NewPostServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newPost</servlet-name>
+        <url-pattern>/post_car</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>myPosts</servlet-name>
+        <servlet-class>Servlets.MyPostsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            myPosts
+        </servlet-name>
+        <url-pattern>
+            /my_posts
+        </url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>favorites</servlet-name>
+        <servlet-class>Servlets.FavoritesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            favorites
+        </servlet-name>
+        <url-pattern>
+            /favorites
+        </url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>info</servlet-name>
+        <servlet-class>Servlets.ProjectInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            info
+        </servlet-name>
+        <url-pattern>
+            /info
+        </url-pattern>
+    </servlet-mapping>
 
 </web-app>
