@@ -3,15 +3,15 @@ package Models;
 public class Comment {
 
     private int id;
-    private int id_sender;
-    private int id_car;
+    private User sender;
+    private Car car;
     private String text;
     private String date_sending;
 
-    public Comment(int id, int id_sender, int id_car, String text, String date_sending) {
+    public Comment(int id, User sender, Car car, String text, String date_sending) {
         this.id = id;
-        this.id_sender = id_sender;
-        this.id_car = id_car;
+        this.sender = sender;
+        this.car = car;
         this.text = text;
         this.date_sending = date_sending;
     }
@@ -20,12 +20,12 @@ public class Comment {
         return id;
     }
 
-    public int getId_sender() {
-        return id_sender;
+    public User getSender() {
+        return sender;
     }
 
-    public int getId_car() {
-        return id_car;
+    public Car getCar() {
+        return car;
     }
 
     public String getText() {

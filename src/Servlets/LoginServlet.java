@@ -8,10 +8,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -31,12 +28,29 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
+        String remember_me = request.getParameter("remember_me");
+
+
         if (user != null) {
             response.sendRedirect("/catalog");
         }
         else {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
+
+            if (remember_me != null && remember_me.equals("on")) {
+                Cookie[] cookies = request.getCookies();
+
+                for (Cookie cookie :
+                        cookies) {
+                    System.out.println(cookie.getName());
+                    System.out.println(cookie.getValue());
+                }
+
+                Cookie cookie = new Cookie("remember_me", "login-" + login + "-password-" + password);
+                cookie.setMaxAge(24 * 60 * 60);
+                response.addCookie(cookie);
+            }
 
             try {
 
@@ -63,20 +77,20 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
+        PrintWriter writer = response.getWriter();
+
+        response.setContentType("text/html");
+
+        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
+        Template template;
+
         if (request.getRequestURI().equals("/logout")) {
             session.removeAttribute("current_user");
         }
 
-        if (user != null) {
-            response.sendRedirect("/catalog");
-        } else {
+        if (request.getRequestURI().equals("/wants_logout")) {
 
-            PrintWriter writer = response.getWriter();
-
-            response.setContentType("text/html");
-
-            Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-            Template template = cfg.getTemplate("login.ftl");
+            template = cfg.getTemplate("consentLogout.ftl");
 
             try {
                 template.process(null, writer);
@@ -84,5 +98,21 @@ public class LoginServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+        else {
+            if (user != null) {
+                response.sendRedirect("/catalog");
+            }
+            else {
+
+                template = cfg.getTemplate("login.ftl");
+
+                try {
+                    template.process(null, writer);
+                } catch (TemplateException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }

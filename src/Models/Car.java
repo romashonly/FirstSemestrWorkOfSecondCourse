@@ -1,8 +1,8 @@
 package Models;
 
 public class Car {
-    private int id;
-    private int id_owner;
+    private int    id;
+    private User   owner;
     private String brand_car;
     private String model_car;
     private String year_issue;
@@ -13,13 +13,33 @@ public class Car {
     private String body_type;
     private String gearBox_type;
     private String driveUnit_type;
+    private String rudder_type;
     private String condition_type;
     private String image;
-    private int cost;
+    private int    cost;
+
+    public Car() {
+        this.id = 404;
+        this.owner = new User();
+        this.brand_car = "404";
+        this.model_car = "404";
+        this.year_issue = "404";
+        this.date_posting = "404";
+        this.color = "404";
+        this.mileage = "404";
+        this.engine = "404";
+        this.body_type = "404";
+        this.gearBox_type = "404";
+        this.driveUnit_type = "404";
+        this.rudder_type = "404";
+        this.condition_type = "404";
+        this.image = "404";
+        this.cost = 404;
+    }
 
     public Car(
             int id,
-            int id_owner,
+            User owner,
             String brand_car,
             String model_car,
             String year_issue,
@@ -30,12 +50,13 @@ public class Car {
             String body_type,
             String gearBox_type,
             String driveUnit_type,
+            String rudder_type,
             String condition_type,
             String image,
             int cost
     ) {
         this.id = id;
-        this.id_owner = id_owner;
+        this.owner = owner;
         this.brand_car = brand_car;
         this.model_car = model_car;
         this.year_issue = year_issue;
@@ -46,6 +67,7 @@ public class Car {
         this.body_type = body_type;
         this.gearBox_type = gearBox_type;
         this.driveUnit_type = driveUnit_type;
+        this.rudder_type = rudder_type;
         this.condition_type = condition_type;
         this.image = image;
         this.cost = cost;
@@ -55,8 +77,8 @@ public class Car {
         return id;
     }
 
-    public int getId_owner() {
-        return id_owner;
+    public User getOwner() {
+        return owner;
     }
 
     public String getBrand_car() {
@@ -109,5 +131,31 @@ public class Car {
 
     public int getCost() {
         return cost;
+    }
+
+    public String getRudder_type() {
+        return rudder_type;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", id_owner=" + owner.getName() +
+                ", brand_car='" + brand_car + '\'' +
+                ", model_car='" + model_car + '\'' +
+                ", year_issue='" + year_issue + '\'' +
+                ", date_posting='" + date_posting + '\'' +
+                ", color='" + color + '\'' +
+                ", mileage='" + mileage + '\'' +
+                ", engine='" + engine + '\'' +
+                ", body_type='" + body_type + '\'' +
+                ", gearBox_type='" + gearBox_type + '\'' +
+                ", driveUnit_type='" + driveUnit_type + '\'' +
+                ", rudder_type='" + rudder_type + '\'' +
+                ", condition_type='" + condition_type + '\'' +
+                ", image='" + image + '\'' +
+                ", cost=" + cost +
+                '}';
     }
 }

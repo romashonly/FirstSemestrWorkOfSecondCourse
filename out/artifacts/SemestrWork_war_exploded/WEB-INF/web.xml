@@ -76,6 +76,9 @@
         <url-pattern>
             /logout
         </url-pattern>
+        <url-pattern>
+            /wants_logout
+        </url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -96,8 +99,12 @@
         <servlet-class>Servlets.NewPostServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>newPost</servlet-name>
-        <url-pattern>/post_car</url-pattern>
+        <servlet-name>
+            newPost
+        </servlet-name>
+        <url-pattern>
+            /post_car
+        </url-pattern>
     </servlet-mapping>
 
     <servlet>

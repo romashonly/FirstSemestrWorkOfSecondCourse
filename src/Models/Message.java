@@ -3,15 +3,17 @@ package Models;
 public class Message {
 
     private int id;
-    private int id_sender;
-    private int id_destUser;
+    private User sender;
+    private User destUser;
+    private Chat chat;
     private String text;
     private String date_sending;
 
-    public Message(int id, int id_sender, int id_destUser, String text, String date_sending) {
+    public Message(int id, User sender, User destUser, Chat chat, String text, String date_sending) {
         this.id = id;
-        this.id_sender = id_sender;
-        this.id_destUser = id_destUser;
+        this.sender = sender;
+        this.destUser = destUser;
+        this.chat = chat;
         this.text = text;
         this.date_sending = date_sending;
     }
@@ -20,12 +22,12 @@ public class Message {
         return id;
     }
 
-    public int getId_sender() {
-        return id_sender;
+    public User getSender() {
+        return sender;
     }
 
-    public int getId_destUser() {
-        return id_destUser;
+    public User getDestUser() {
+        return destUser;
     }
 
     public String getText() {
@@ -34,5 +36,9 @@ public class Message {
 
     public String getDate_sending() {
         return date_sending;
+    }
+
+    public Chat getChat() {
+        return chat;
     }
 }

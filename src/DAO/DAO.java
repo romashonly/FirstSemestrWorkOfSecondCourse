@@ -47,7 +47,7 @@ public abstract class DAO {
         ResultSet rs = stmnt.executeQuery("select * from users");
 
         while (rs.next()) {
-            String[] infUser = new String[6];
+            String[] infUser = new String[10];
 
             infUser[0] = rs.getString("id");
             infUser[1] = rs.getString("login");

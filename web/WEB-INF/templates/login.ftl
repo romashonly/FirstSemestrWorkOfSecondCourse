@@ -11,6 +11,13 @@
         <tr>
             <td colspan="2" style="text-align: center"><input type="submit" value="Go"></td>
         </tr>
+        <tr>
+            <td colspan="2" class="text_center" >
+                <label>
+                    <input type="checkbox" name="remember_me" checked="checked" /> Remember me
+                </label>
+            </td>
+        </tr>
     </table>
 </form>
 <form method="get" action="/registration">

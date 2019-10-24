@@ -42,7 +42,6 @@ public class RegistrationServlet extends HttpServlet {
                 String avatar = request.getParameter("avatar");
                 String city = request.getParameter("city");
 
-                System.out.println(id);
                 if (id != null && login != null && password != null && phone_number != null && name != null && serName != null && date_birth != null && date_registration != null && avatar != null && city != null) {
                     user = new User(Integer.parseInt(id), login, password, phone_number, name, serName, date_birth, date_registration, avatar, city);
                     usersDAO.addUserIntoBD(user);
@@ -87,7 +86,7 @@ public class RegistrationServlet extends HttpServlet {
                 response.sendRedirect("/catalog");
             } else {
 
-                String messageCompletedFields = "";
+                String messageCompletedFields = " ";
 
                 if (completedFields != null && completedFields.equals("false")) {
                     messageCompletedFields = "All fields must be filled";
@@ -98,16 +97,9 @@ public class RegistrationServlet extends HttpServlet {
                 root.put("message", messageCompletedFields);
 
                 template = cfg.getTemplate("registration.ftl");
-                Writer out = new OutputStreamWriter(System.out);
 
                 try {
-                    template.process(root, out);
-                } catch (TemplateException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    template.process(null, writer);
+                    template.process(root, writer);
                 } catch (TemplateException e) {
                     e.printStackTrace();
                 }
