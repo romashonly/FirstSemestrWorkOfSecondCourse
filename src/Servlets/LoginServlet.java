@@ -8,11 +8,15 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+@MultipartConfig
 public class LoginServlet extends HttpServlet {
 
     @Override
@@ -25,57 +29,50 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
-
         String remember_me = request.getParameter("remember_me");
 
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
 
-        if (user != null) {
-            response.sendRedirect("/catalog");
+//        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+//        String passHash = Arrays.toString(messageDigest.digest(password.getBytes()));
+
+        if (remember_me != null && remember_me.equals("on")) {
+
+            Cookie cookieLogin = new Cookie("login", login);
+            Cookie cookiePassword = new Cookie("password", password);
+            cookieLogin.setMaxAge(24 * 60 * 60);
+            cookiePassword.setMaxAge(24 * 60 * 60);
+
+            response.addCookie(cookieLogin);
+            response.addCookie(cookiePassword);
         }
-        else {
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
 
-            if (remember_me != null && remember_me.equals("on")) {
-                Cookie[] cookies = request.getCookies();
+        try {
 
-                for (Cookie cookie :
-                        cookies) {
-                    System.out.println(cookie.getName());
-                    System.out.println(cookie.getValue());
-                }
+            UsersDAO usersDAO = new UsersDAO();
 
-                Cookie cookie = new Cookie("remember_me", "login-" + login + "-password-" + password);
-                cookie.setMaxAge(24 * 60 * 60);
-                response.addCookie(cookie);
-            }
+            if (usersDAO.checkCorrectLoginAndPassword(login, password)) {
 
-            try {
+                HttpSession session = request.getSession();
+                User user = usersDAO.getUserByLogin(login, password);
 
-                UsersDAO usersDAO = new UsersDAO();
-
-                if (usersDAO.checkCorrectLoginAndPassword(login, password)) {
-
-                    user = usersDAO.getUserByLogin(login, password);
-
-                    session.setAttribute("current_user", user);
-                    response.sendRedirect("/catalog");
-                } else {
-                    response.sendRedirect("/login?isCorrect=false");
-                }
-            }
-            catch(SQLException | ClassNotFoundException e){
-                e.printStackTrace();
+                session.setAttribute("current_user", user);
+                response.sendRedirect("/catalog");
+            } else {
+                response.sendRedirect("/login?isCorrect=false");
             }
         }
+        catch(SQLException | ClassNotFoundException | NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
+//        User user = (User) session.getAttribute("current_user");
 
         PrintWriter writer = response.getWriter();
 
@@ -85,10 +82,20 @@ public class LoginServlet extends HttpServlet {
         Template template;
 
         if (request.getRequestURI().equals("/logout")) {
-            session.removeAttribute("current_user");
-        }
 
-        if (request.getRequestURI().equals("/wants_logout")) {
+            Cookie cookieLogin = new Cookie("login", "");
+            Cookie cookiePassword = new Cookie("password", "");
+            cookieLogin.setMaxAge(0);
+            cookiePassword.setMaxAge(0);
+
+            response.addCookie(cookieLogin);
+            response.addCookie(cookiePassword);
+
+            session.removeAttribute("current_user");
+
+            response.sendRedirect("/login");
+        }
+        else if (request.getRequestURI().equals("/wants_logout")) {
 
             template = cfg.getTemplate("consentLogout.ftl");
 
@@ -99,10 +106,10 @@ public class LoginServlet extends HttpServlet {
             }
         }
         else {
-            if (user != null) {
-                response.sendRedirect("/catalog");
-            }
-            else {
+//            if (user != null) {
+//                response.sendRedirect("/catalog");
+//            }
+//            else {
 
                 template = cfg.getTemplate("login.ftl");
 
@@ -111,7 +118,7 @@ public class LoginServlet extends HttpServlet {
                 } catch (TemplateException e) {
                     e.printStackTrace();
                 }
-            }
+//            }
         }
 
     }

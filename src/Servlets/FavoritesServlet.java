@@ -39,16 +39,16 @@ public class FavoritesServlet extends HttpServlet {
 
         try {
 
-            if (user != null) {
+//            if (user != null) {
                 template = cfg.getTemplate("favorites.ftl");
 
                 Map<String, Object> root = new HashMap<>();
                 root.put("favorites", favoritesDAO.getMyFavorites(user));
 
                 template.process(root, writer);
-            } else {
-                response.sendRedirect("/login");
-            }
+//            } else {
+//                response.sendRedirect("/login");
+//            }
 
         } catch (TemplateException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();

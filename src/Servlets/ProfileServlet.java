@@ -34,10 +34,10 @@ public class ProfileServlet extends HttpServlet {
 
         String textOfMessage = request.getParameter("textOfMessage");
 
-        if (user == null) {
-            response.sendRedirect("/login");
-        }
-        else {
+//        if (user == null) {
+//            response.sendRedirect("/login");
+//        }
+//        else {
             try {
                 ChatsDAO chatsDAO = new ChatsDAO();
 
@@ -62,7 +62,7 @@ public class ProfileServlet extends HttpServlet {
             catch(SQLException | ClassNotFoundException e){
                 e.printStackTrace();
             }
-        }
+//        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

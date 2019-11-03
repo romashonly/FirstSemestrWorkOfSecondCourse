@@ -101,9 +101,9 @@ public class NewPostServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
+//
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("current_user");
 
         Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
         Template template;
@@ -111,7 +111,7 @@ public class NewPostServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
 
-        if (user != null) {
+//        if (user != null) {
             try {
                 template = cfg.getTemplate("addNewPost.ftl");
                 template.process(null, writer);
@@ -119,9 +119,9 @@ public class NewPostServlet extends HttpServlet {
             catch (TemplateException e) {
                 e.printStackTrace();
             }
-        }
-        else {
-            response.sendRedirect("/login");
-        }
+//        }
+//        else {
+//            response.sendRedirect("/login");
+//        }
     }
 }

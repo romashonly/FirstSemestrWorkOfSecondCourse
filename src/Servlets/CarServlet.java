@@ -57,8 +57,8 @@ public class CarServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("current_user");
 
         Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
         Template template;
@@ -73,7 +73,7 @@ public class CarServlet extends HttpServlet {
 
         try {
 
-            if (user != null) {
+//            if (user != null) {
                 template = cfg.getTemplate("detailCar.ftl");
 
                 car = carsDAO.getCarFromAllCars(id_car);
@@ -99,9 +99,9 @@ public class CarServlet extends HttpServlet {
                 root.put("comments", commentsDAO.getCommentsForCar(car));
 
                 template.process(root, writer);
-            } else {
-                response.sendRedirect("/login");
-            }
+//            } else {
+//                response.sendRedirect("/login");
+//            }
 
         } catch (TemplateException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();

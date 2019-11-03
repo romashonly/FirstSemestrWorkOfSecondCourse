@@ -24,8 +24,8 @@ public class ChatsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("current_user");
 
         Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
         Template template;
@@ -37,7 +37,7 @@ public class ChatsServlet extends HttpServlet {
 
         ChatsDAO chatsDAO = new ChatsDAO();
 
-        if (user != null) {
+//        if (user != null) {
 
             try {
 
@@ -61,9 +61,9 @@ public class ChatsServlet extends HttpServlet {
             catch (TemplateException | SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
-        else {
-            response.sendRedirect("/login");
-        }
+//        }
+//        else {
+//            response.sendRedirect("/login");
+//        }
     }
 }

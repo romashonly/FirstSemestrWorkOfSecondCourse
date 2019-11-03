@@ -31,8 +31,6 @@ public class CatalogServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 

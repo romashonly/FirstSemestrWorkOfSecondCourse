@@ -3,8 +3,11 @@ package DAO;
 import Models.User;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 public class UsersDAO extends DAO {
@@ -22,11 +25,15 @@ public class UsersDAO extends DAO {
         return new User();
     }
 
-    public boolean checkCorrectLoginAndPassword(String login, String password) throws SQLException, IOException, ClassNotFoundException {
-        User user = getUserByLogin(login, password);
+    public boolean checkCorrectLoginAndPassword(String login, String password) throws SQLException, IOException, ClassNotFoundException, NoSuchAlgorithmException {
 
-        if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-            return true;
+        if (login != null && password != null) {
+//            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+//            String passHash = Arrays.toString(messageDigest.digest(password.getBytes()));
+
+            User user = getUserByLogin(login, password);
+
+            return user.getLogin().equals(login) && user.getPassword().equals(password);
         }
 
         return false;

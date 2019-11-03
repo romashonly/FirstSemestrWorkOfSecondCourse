@@ -7,31 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b182956-9988-4653-9277-dded089f0f92" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DAO/CarsDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DAO/ChatsDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DAO/CommentsDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DAO/FavoritesDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DAO/MyPostsDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Models/Chat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/addNewPost.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/catalogAnonim.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/catalogUser.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/chats.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/chatsBetweenUsers.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/consentLogout.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/detailCar.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/favorites.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/infoProjectAnonim.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/infoProjectUser.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/myPosts.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/templates/profile.ftl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FilterClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/SemestrWork_war_exploded/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SemestrWork_war_exploded/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAO/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Car.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Favorite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Favorite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAO/UsersDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/UsersDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/CarServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/CarServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/CatalogServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/CatalogServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/ChatsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/ChatsServlet.java" afterDir="false" />
@@ -40,9 +19,8 @@
       <change beforePath="$PROJECT_DIR$/src/Servlets/MyPostsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/MyPostsServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/NewPostServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/NewPostServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/ProfileServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/ProfileServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Servlets/ProjectInfoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/ProjectInfoServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/RegistrationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/RegistrationServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/WEB-INF/templates/login.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/templates/login.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/templates/catalogAnonim.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/templates/catalogAnonim.ftl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -280,7 +258,9 @@
       <workItem from="1571738399594" duration="3892000" />
       <workItem from="1571840212681" duration="9538000" />
       <workItem from="1571909803749" duration="1358000" />
-      <workItem from="1571911344062" duration="22344000" />
+      <workItem from="1571911344062" duration="22617000" />
+      <workItem from="1572019752162" duration="90000" />
+      <workItem from="1572683601753" duration="11313000" />
     </task>
     <task id="LOCAL-00001" summary="add first servlets">
       <created>1571567963039</created>
@@ -296,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571852633061</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="implemented all Servlets and DAO handlers">
+      <created>1571949143877</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1571949143877</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,6 +305,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add first servlets" />
     <MESSAGE value="add Objects, all Servlets, few DAO handlers, implementation Login and Registration" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Objects, all Servlets, few DAO handlers, implementation Login and Registration" />
+    <MESSAGE value="implemented all Servlets and DAO handlers" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented all Servlets and DAO handlers" />
   </component>
 </project>

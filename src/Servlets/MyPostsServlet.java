@@ -38,16 +38,16 @@ public class MyPostsServlet extends HttpServlet {
 
         try {
 
-            if (user != null) {
+//            if (user != null) {
                 template = cfg.getTemplate("myPosts.ftl");
 
                 Map<String, Object> root = new HashMap<>();
                 root.put("myCars", myPostsDAO.getMyPosts(user));
 
                 template.process(root, writer);
-            } else {
-                response.sendRedirect("/login");
-            }
+//            } else {
+//                response.sendRedirect("/login");
+//            }
 
         } catch (TemplateException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();

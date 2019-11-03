@@ -9,7 +9,7 @@
         <form method="get" action="/catalog">
             <td colspan="2" style="text-align: center"><input type="submit" value="Catalog"></td>
         </form>
-        <form method="get" action="/registration">
+        <form method="get" action="/post_car">
             <td colspan="2" style="text-align: center"><input type="submit" value="Sell"></td>
         </form>
         <form method="get" action="/login">

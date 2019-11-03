@@ -5,6 +5,25 @@
          version="4.0">
 
 
+    <filter>
+        <filter-name>Filter</filter-name>
+        <filter-class>FilterClass</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Filter</filter-name>
+
+        <url-pattern>/catalog</url-pattern>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/catalog/car</url-pattern>
+        <url-pattern>/chats</url-pattern>
+        <url-pattern>/profile</url-pattern>
+<!--        <url-pattern>/login</url-pattern>-->
+        <url-pattern>/registration</url-pattern>
+        <url-pattern>/post_car</url-pattern>
+        <url-pattern>/my_posts</url-pattern>
+        <url-pattern>/favorites</url-pattern>
+
+    </filter-mapping>
 
     <servlet>
         <servlet-name>catalog</servlet-name>
