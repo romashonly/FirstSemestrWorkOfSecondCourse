@@ -34,35 +34,32 @@ public class ProfileServlet extends HttpServlet {
 
         String textOfMessage = request.getParameter("textOfMessage");
 
-//        if (user == null) {
-//            response.sendRedirect("/login");
-//        }
-//        else {
-            try {
-                ChatsDAO chatsDAO = new ChatsDAO();
+        try {
+            ChatsDAO chatsDAO = new ChatsDAO();
 
-                if (textOfMessage != null) {
+            if (textOfMessage != null) {
 
-                    Chat chat;
+                Chat chat;
 
-                    if (!chatsDAO.checkHasChat(user, userForPage)) {
-                        chat = new Chat(0, user, userForPage, "now");
-                        chatsDAO.addChatToBD(chat);
-                    }
-                    else {
-                        chat = chatsDAO.getChat(user, userForPage);
-                    }
-
-                    Message message = new Message(1, user, userForPage, chat, textOfMessage, "now");
-                    chatsDAO.addMessageToBD(message);
-
-                    response.sendRedirect("/chats?id=" + chat.getId());
+                if (!chatsDAO.checkHasChat(user, userForPage)) {
+                    int idChat = chatsDAO.getAllChats().size();
+                    chat = new Chat(idChat, user, userForPage, "now");
+                    chatsDAO.addChatToBD(chat);
                 }
+                else {
+                    chat = chatsDAO.getChat(user, userForPage);
+                }
+
+                int idMessage = chatsDAO.getAllMessages().size();
+                Message message = new Message(idMessage, user, userForPage, chat, textOfMessage, "now");
+                chatsDAO.addMessageToBD(message);
+
+                response.sendRedirect("/chats?id=" + chat.getId());
             }
-            catch(SQLException | ClassNotFoundException e){
-                e.printStackTrace();
-            }
-//        }
+        }
+        catch(SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

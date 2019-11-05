@@ -18,7 +18,7 @@
         <url-pattern>/chats</url-pattern>
         <url-pattern>/profile</url-pattern>
 <!--        <url-pattern>/login</url-pattern>-->
-        <url-pattern>/registration</url-pattern>
+<!--        <url-pattern>/registration</url-pattern>-->
         <url-pattern>/post_car</url-pattern>
         <url-pattern>/my_posts</url-pattern>
         <url-pattern>/favorites</url-pattern>

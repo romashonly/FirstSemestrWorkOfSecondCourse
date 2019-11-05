@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAO.ChatsDAO;
+import Models.Message;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -20,12 +21,15 @@ import java.util.Map;
 public class ChatsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+//        String textMessageOfUserOne = request.getParameter("messageOfUserOne");
+//        String messageOfUserTwo = request.getParameter("messageOfUserTwo");
+//
+//        Message messageUserOne = new Message();
+//        Message messageUserTwo = new Message();
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("current_user");
 
         Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
         Template template;
@@ -37,33 +41,27 @@ public class ChatsServlet extends HttpServlet {
 
         ChatsDAO chatsDAO = new ChatsDAO();
 
-//        if (user != null) {
+        try {
 
-            try {
+            Map<String, Object> root = new HashMap<>();
 
-                Map<String, Object> root = new HashMap<>();
+            if (id_chat != null) {
+                template = cfg.getTemplate("chatsBetweenUsers.ftl");
 
-                if (id_chat != null) {
-                    template = cfg.getTemplate("chatsBetweenUsers.ftl");
+                root.put("messages", chatsDAO.getMessages(chatsDAO.getChat(id_chat)));
 
-                    root.put("messages", chatsDAO.getMessages(chatsDAO.getChat(id_chat)));
-
-                }
-                else {
-                    template = cfg.getTemplate("chats.ftl");
-
-                    root.put("chats", chatsDAO.getAllChats());
-
-                }
-
-                template.process(root, writer);
             }
-            catch (TemplateException | SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
+            else {
+                template = cfg.getTemplate("chats.ftl");
+
+                root.put("chats", chatsDAO.getAllChats());
+
             }
-//        }
-//        else {
-//            response.sendRedirect("/login");
-//        }
+
+            template.process(root, writer);
+        }
+        catch (TemplateException | SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

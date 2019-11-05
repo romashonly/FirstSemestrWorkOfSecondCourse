@@ -105,4 +105,16 @@ public class CarsDAO extends DAO {
         return true;
 
     }
+
+    public boolean removeCar(String idOfCar) throws SQLException, ClassNotFoundException {
+
+        String query = "DELETE FROM public.cars WHERE id = '?';";
+        PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
+
+        preparedStatement.setString(1, idOfCar);
+
+        preparedStatement.executeUpdate();
+
+        return true;
+    }
 }

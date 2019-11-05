@@ -1,8 +1,7 @@
 package Servlets;
 
+import DAO.CarsDAO;
 import DAO.FavoritesDAO;
-import DAO.MyPostsDAO;
-import Models.Favorite;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -22,6 +21,15 @@ import java.util.Map;
 public class FavoritesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String idOfCar = request.getParameter("idOfFavorite");
+
+        FavoritesDAO favoritesDAO = new FavoritesDAO();
+
+        try {
+            favoritesDAO.removeFavorite(idOfCar);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,16 +47,12 @@ public class FavoritesServlet extends HttpServlet {
 
         try {
 
-//            if (user != null) {
-                template = cfg.getTemplate("favorites.ftl");
+            template = cfg.getTemplate("favorites.ftl");
 
-                Map<String, Object> root = new HashMap<>();
-                root.put("favorites", favoritesDAO.getMyFavorites(user));
+            Map<String, Object> root = new HashMap<>();
+            root.put("favorites", favoritesDAO.getFavoritesOfUser(user));
 
-                template.process(root, writer);
-//            } else {
-//                response.sendRedirect("/login");
-//            }
+            template.process(root, writer);
 
         } catch (TemplateException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();

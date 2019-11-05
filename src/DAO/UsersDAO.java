@@ -43,7 +43,7 @@ public class UsersDAO extends DAO {
         String query = "INSERT INTO public.users" + "(id, login, password, phone_number, name, sername, date_birth, date_registration, avatar, city)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, Integer.toString(user.getId()));
+        preparedStatement.setInt(1, user.getId());
         preparedStatement.setString(2, user.getLogin());
         preparedStatement.setString(3, user.getPassword());
         preparedStatement.setString(4, user.getPhone_number());

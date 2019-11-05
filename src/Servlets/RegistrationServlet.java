@@ -7,6 +7,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 import java.io.*;
 import java.security.MessageDigest;
@@ -16,8 +17,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@MultipartConfig
 public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.setCharacterEncoding("UTF-8"); // кодировка ответа
+        request.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
@@ -35,10 +41,10 @@ public class RegistrationServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 String serName = request.getParameter("serName");
                 String date_birth = request.getParameter("date_birth");
-                String date_registration = request.getParameter("date_registration");
+                String date_registration = "now";
 
                 Part p = request.getPart("photo");
-                String localdir = "uploads";
+                String localdir = "uploads/avatars";
                 String pathDir = getServletContext().getRealPath("") + File.separator + localdir;
                 File dir = new File(pathDir);
                 if (!dir.exists()) {
@@ -50,7 +56,7 @@ public class RegistrationServlet extends HttpServlet {
                 String fullpath = pathDir + File.separator + filename;
                 p.write(fullpath);
 
-                String avatar = new String("/" + localdir + "/" + filename);
+                String avatar = "/" + localdir + "/" + filename;
 
                 String city = request.getParameter("city");
 
@@ -76,8 +82,11 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("current_user");
+        response.setCharacterEncoding("UTF-8"); // кодировка ответа
+        request.setCharacterEncoding("UTF-8");
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("current_user");
 
         String type = request.getParameter("type");
         String completedFields = request.getParameter("completed");
@@ -98,9 +107,9 @@ public class RegistrationServlet extends HttpServlet {
             }
         }
         else {
-//            if (user != null) {
-//                response.sendRedirect("/catalog");
-//            } else {
+            if (user != null) {
+                response.sendRedirect("/catalog");
+            } else {
 
                 String messageCompletedFields = " ";
 
@@ -119,7 +128,7 @@ public class RegistrationServlet extends HttpServlet {
                 } catch (TemplateException e) {
                     e.printStackTrace();
                 }
-//            }
+            }
         }
     }
 }

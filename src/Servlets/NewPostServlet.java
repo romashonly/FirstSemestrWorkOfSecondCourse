@@ -9,16 +9,16 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+@MultipartConfig
 public class NewPostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -33,7 +33,7 @@ public class NewPostServlet extends HttpServlet {
 
                 CarsDAO carsDAO = new CarsDAO();
 
-                String  id = request.getParameter("id");
+                int  id = carsDAO.getAllCars().size();
                 String  id_owner = request.getParameter("id_owner");
                 String  brand_car = request.getParameter("brand_car");
                 String  model_car = request.getParameter("model_car");
@@ -47,12 +47,26 @@ public class NewPostServlet extends HttpServlet {
                 String  driveUnit_type = request.getParameter("driveUnit_type");
                 String  rudder_type = request.getParameter("rudder_type");
                 String  condition_type = request.getParameter("condition_type");
-                String  image = request.getParameter("image");
+
+                Part p = request.getPart("image");
+                String localdir = "uploads/cars";
+                String pathDir = getServletContext().getRealPath("") + File.separator + localdir;
+                File dir = new File(pathDir);
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+
+                String[] filename_data = p.getSubmittedFileName().split("\\.");
+                String filename = Math.random() + "." + filename_data[filename_data.length - 1];
+                String fullpath = pathDir + File.separator + filename;
+                p.write(fullpath);
+
+                String image = "/" + localdir + "/" + filename;
+
                 String  cost = request.getParameter("cost");
 
                 if (
-                        id != null
-                        && id_owner != null
+                        id_owner != null
                         && brand_car != null
                         && model_car != null
                         && year_issue != null
@@ -65,11 +79,10 @@ public class NewPostServlet extends HttpServlet {
                         && driveUnit_type != null
                         && rudder_type != null
                         && condition_type != null
-                        && image != null
                         && cost != null
                 ) {
                     Car newCar = new Car(
-                            Integer.parseInt(id),
+                            id,
                             carsDAO.getUserFromListOfUsers(id_owner),
                             brand_car,
                             model_car,
@@ -101,9 +114,6 @@ public class NewPostServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("current_user");
 
         Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
         Template template;
@@ -111,17 +121,12 @@ public class NewPostServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
 
-//        if (user != null) {
-            try {
-                template = cfg.getTemplate("addNewPost.ftl");
-                template.process(null, writer);
-            }
-            catch (TemplateException e) {
-                e.printStackTrace();
-            }
-//        }
-//        else {
-//            response.sendRedirect("/login");
-//        }
+        try {
+            template = cfg.getTemplate("addNewPost.ftl");
+            template.process(null, writer);
+        }
+        catch (TemplateException e) {
+            e.printStackTrace();
+        }
     }
 }

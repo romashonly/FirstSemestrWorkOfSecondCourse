@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class FilterClass implements Filter {
     public void destroy() {
@@ -41,8 +44,12 @@ public class FilterClass implements Filter {
 
             if (login != null && password != null) {
                 try {
-                    session.setAttribute("current_user", usersDAO.getUserByLogin(login, password));
-                } catch (SQLException | ClassNotFoundException e) {
+
+                    MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+                    String passHash = Arrays.toString(messageDigest.digest(password.getBytes()));
+
+                    session.setAttribute("current_user", usersDAO.getUserByLogin(login, passHash));
+                } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
                 chain.doFilter(req, resp);

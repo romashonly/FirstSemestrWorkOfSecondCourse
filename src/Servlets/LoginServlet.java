@@ -13,10 +13,11 @@ import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
-@MultipartConfig
 public class LoginServlet extends HttpServlet {
 
     @Override
@@ -34,8 +35,13 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-//        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-//        String passHash = Arrays.toString(messageDigest.digest(password.getBytes()));
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        String passHash = Arrays.toString(messageDigest.digest(password.getBytes()));
 
         if (remember_me != null && remember_me.equals("on")) {
 
@@ -52,10 +58,10 @@ public class LoginServlet extends HttpServlet {
 
             UsersDAO usersDAO = new UsersDAO();
 
-            if (usersDAO.checkCorrectLoginAndPassword(login, password)) {
+            if (usersDAO.checkCorrectLoginAndPassword(login, passHash)) {
 
                 HttpSession session = request.getSession();
-                User user = usersDAO.getUserByLogin(login, password);
+                User user = usersDAO.getUserByLogin(login, passHash);
 
                 session.setAttribute("current_user", user);
                 response.sendRedirect("/catalog");
@@ -72,7 +78,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("current_user");
+        User user = (User) session.getAttribute("current_user");
 
         PrintWriter writer = response.getWriter();
 
@@ -106,10 +112,10 @@ public class LoginServlet extends HttpServlet {
             }
         }
         else {
-//            if (user != null) {
-//                response.sendRedirect("/catalog");
-//            }
-//            else {
+            if (user != null) {
+                response.sendRedirect("/catalog");
+            }
+            else {
 
                 template = cfg.getTemplate("login.ftl");
 
@@ -118,8 +124,7 @@ public class LoginServlet extends HttpServlet {
                 } catch (TemplateException e) {
                     e.printStackTrace();
                 }
-//            }
+            }
         }
-
     }
 }

@@ -7,12 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b182956-9988-4653-9277-dded089f0f92" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/FilterClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/SemestrWork_war_exploded/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/SemestrWork_war_exploded/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAO/CarsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/CarsDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAO/FavoritesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/FavoritesDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAO/UsersDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/UsersDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FilterClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FilterClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/CarServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/CarServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Servlets/CatalogServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/CatalogServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/ChatsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/ChatsServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/FavoritesServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/FavoritesServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/LoginServlet.java" afterDir="false" />
@@ -20,7 +22,7 @@
       <change beforePath="$PROJECT_DIR$/src/Servlets/NewPostServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/NewPostServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/ProfileServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/ProfileServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servlets/RegistrationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servlets/RegistrationServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/WEB-INF/templates/catalogAnonim.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/templates/catalogAnonim.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/templates/registration.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/templates/registration.ftl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -260,7 +262,9 @@
       <workItem from="1571909803749" duration="1358000" />
       <workItem from="1571911344062" duration="22617000" />
       <workItem from="1572019752162" duration="90000" />
-      <workItem from="1572683601753" duration="11313000" />
+      <workItem from="1572683601753" duration="11596000" />
+      <workItem from="1572875120948" duration="9806000" />
+      <workItem from="1572949515117" duration="1072000" />
     </task>
     <task id="LOCAL-00001" summary="add first servlets">
       <created>1571567963039</created>
@@ -283,7 +287,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571949143877</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="implemented Remember me and add Filter class">
+      <created>1572794276843</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1572794276844</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,6 +317,18 @@
     <MESSAGE value="add first servlets" />
     <MESSAGE value="add Objects, all Servlets, few DAO handlers, implementation Login and Registration" />
     <MESSAGE value="implemented all Servlets and DAO handlers" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented all Servlets and DAO handlers" />
+    <MESSAGE value="implemented Remember me and add Filter class" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented Remember me and add Filter class" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DAO/UsersDAO.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

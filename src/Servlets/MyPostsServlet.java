@@ -21,6 +21,16 @@ import java.util.Map;
 public class MyPostsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String idOfCar = request.getParameter("idOfMessage");
+
+        CarsDAO carsDAO = new CarsDAO();
+
+        try {
+            carsDAO.removeCar(idOfCar);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,16 +48,12 @@ public class MyPostsServlet extends HttpServlet {
 
         try {
 
-//            if (user != null) {
-                template = cfg.getTemplate("myPosts.ftl");
+            template = cfg.getTemplate("myPosts.ftl");
 
-                Map<String, Object> root = new HashMap<>();
-                root.put("myCars", myPostsDAO.getMyPosts(user));
+            Map<String, Object> root = new HashMap<>();
+            root.put("myCars", myPostsDAO.getMyPosts(user));
 
-                template.process(root, writer);
-//            } else {
-//                response.sendRedirect("/login");
-//            }
+            template.process(root, writer);
 
         } catch (TemplateException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
