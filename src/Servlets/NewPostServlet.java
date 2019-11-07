@@ -2,6 +2,7 @@ package Servlets;
 
 import DAO.CarsDAO;
 import DAO.UsersDAO;
+import Helpers.Helper;
 import Models.Car;
 import Models.User;
 import freemarker.template.Configuration;
@@ -20,7 +21,13 @@ import java.util.Map;
 
 @MultipartConfig
 public class NewPostServlet extends HttpServlet {
+
+    private CarsDAO carsDAO = new CarsDAO();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
@@ -30,15 +37,13 @@ public class NewPostServlet extends HttpServlet {
         }
         else {
             try {
-
-                CarsDAO carsDAO = new CarsDAO();
-
                 int  id = carsDAO.getAllCars().size();
-                String  id_owner = request.getParameter("id_owner");
+                int  id_owner = user.getId();
                 String  brand_car = request.getParameter("brand_car");
                 String  model_car = request.getParameter("model_car");
                 String  year_issue = request.getParameter("year_issue");
-                String  date_posting = request.getParameter("date_posting");
+//                String  date_posting = request.getParameter("date_posting");
+                String  date_posting = "now";
                 String  color = request.getParameter("color");
                 String  mileage = request.getParameter("mileage");
                 String  engine = request.getParameter("engine");
@@ -66,8 +71,7 @@ public class NewPostServlet extends HttpServlet {
                 String  cost = request.getParameter("cost");
 
                 if (
-                        id_owner != null
-                        && brand_car != null
+                        brand_car != null
                         && model_car != null
                         && year_issue != null
                         && date_posting != null
@@ -83,7 +87,7 @@ public class NewPostServlet extends HttpServlet {
                 ) {
                     Car newCar = new Car(
                             id,
-                            carsDAO.getUserFromListOfUsers(id_owner),
+                            carsDAO.getUserFromListOfUsers(Integer.toString(id_owner)),
                             brand_car,
                             model_car,
                             year_issue,
@@ -101,7 +105,7 @@ public class NewPostServlet extends HttpServlet {
                     );
 
                     carsDAO.addCarsToBD(newCar);
-                    response.sendRedirect("/post_car?type=ok");
+                    response.sendRedirect("/my_posts");
                 }
                 else {
                     response.sendRedirect("/post_car?completed=false");
@@ -115,18 +119,12 @@ public class NewPostServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
 
-        try {
-            template = cfg.getTemplate("addNewPost.ftl");
-            template.process(null, writer);
-        }
-        catch (TemplateException e) {
-            e.printStackTrace();
-        }
+        Map<String, Object> root = new HashMap<>();
+        Helper.render(request, response, "addNewPost.ftl", root);
     }
 }

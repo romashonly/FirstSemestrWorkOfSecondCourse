@@ -4,37 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
-    <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-grid.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-reboot.css">
-    <link rel="stylesheet" href="extra-styles.css">
-    <script src="../js/bootstrap.bundle.js"></script>
-    <script src="../js/bootstrap.js"></script>
+    <#include "html/link.html">
 </head>
 <body style="font-family: 'Fira Sans', sans-serif;">
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">Ромкин авто сайт</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar7">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse justify-content-stretch" id="navbar7">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link text-white mr-lg-4" href="#">Каталог</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white mr-lg-4" href="#">Продать</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white mr-lg-4" href="#">О проекте</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">Войти</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    <#if isAnonim == true>
+        <#include "html/navbarAnonim.html">
+    <#else>
+        <#include "html/navbarUser.html">
+    </#if>
 <row>
     <div class="mt-5 w-50 mx-auto text-center">
         <h1 class="mb-4"><img src="img/iconadd.png"> Регистрация</h1>

@@ -1,7 +1,7 @@
 package Servlets;
 
 import DAO.CarsDAO;
-import DAO.MyPostsDAO;
+import Helpers.Helper;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -19,11 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyPostsServlet extends HttpServlet {
+
+    private CarsDAO carsDAO = new CarsDAO();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String idOfCar = request.getParameter("idOfMessage");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
-        CarsDAO carsDAO = new CarsDAO();
+        String idOfCar = request.getParameter("idOfMessage");
 
         try {
             carsDAO.removeCar(idOfCar);
@@ -35,27 +39,22 @@ public class MyPostsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
-
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
-
-        MyPostsDAO myPostsDAO = new MyPostsDAO();
 
         try {
 
-            template = cfg.getTemplate("myPosts.ftl");
-
             Map<String, Object> root = new HashMap<>();
-            root.put("myCars", myPostsDAO.getMyPosts(user));
+            root.put("myCars", carsDAO.getCarsOfUser(user));
 
-            template.process(root, writer);
+            Helper.render(request, response, "myPosts.ftl", root);
 
-        } catch (TemplateException | SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

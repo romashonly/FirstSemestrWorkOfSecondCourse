@@ -2,6 +2,7 @@ package Servlets;
 
 import DAO.CarsDAO;
 import DAO.FavoritesDAO;
+import Helpers.Helper;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -19,11 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FavoritesServlet extends HttpServlet {
+
+    private FavoritesDAO favoritesDAO = new FavoritesDAO();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String idOfCar = request.getParameter("idOfFavorite");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
-        FavoritesDAO favoritesDAO = new FavoritesDAO();
+        String idOfCar = request.getParameter("idOfFavorite");
 
         try {
             favoritesDAO.removeFavorite(idOfCar);
@@ -34,28 +39,22 @@ public class FavoritesServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
-
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
 
-        FavoritesDAO favoritesDAO = new FavoritesDAO();
+        Map<String, Object> root = new HashMap<>();
 
         try {
-
-            template = cfg.getTemplate("favorites.ftl");
-
-            Map<String, Object> root = new HashMap<>();
             root.put("favorites", favoritesDAO.getFavoritesOfUser(user));
-
-            template.process(root, writer);
-
-        } catch (TemplateException | SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        Helper.render(request, response, "favorites.ftl", root);
     }
 }

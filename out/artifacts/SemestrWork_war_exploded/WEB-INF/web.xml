@@ -14,16 +14,27 @@
 
         <url-pattern>/catalog</url-pattern>
         <url-pattern>/</url-pattern>
-        <url-pattern>/catalog/car</url-pattern>
+<!--        <url-pattern>/catalog/car</url-pattern>-->
         <url-pattern>/chats</url-pattern>
-        <url-pattern>/profile</url-pattern>
+<!--        <url-pattern>/profile</url-pattern>-->
 <!--        <url-pattern>/login</url-pattern>-->
 <!--        <url-pattern>/registration</url-pattern>-->
         <url-pattern>/post_car</url-pattern>
         <url-pattern>/my_posts</url-pattern>
         <url-pattern>/favorites</url-pattern>
+        <url-pattern>/edit_profile</url-pattern>
 
     </filter-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.jpeg</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.gif</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>catalog</servlet-name>
@@ -78,6 +89,19 @@
         </servlet-name>
         <url-pattern>
             /profile
+        </url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>profileEdit</servlet-name>
+        <servlet-class>Servlets.ProfileEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            profileEdit
+        </servlet-name>
+        <url-pattern>
+            /edit_profile
         </url-pattern>
     </servlet-mapping>
 

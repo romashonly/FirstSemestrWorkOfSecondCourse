@@ -62,9 +62,9 @@ public class CommentsDAO extends DAO {
         String query = "INSERT INTO public.comments" + "(id, id_sender, id_car, text, date_sending)" + "VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, Integer.toString(comment.getId()));
-        preparedStatement.setString(2, Integer.toString(comment.getSender().getId()));
-        preparedStatement.setString(3, Integer.toString(comment.getCar().getId()));
+        preparedStatement.setInt(1, comment.getId());
+        preparedStatement.setInt(2, comment.getSender().getId());
+        preparedStatement.setInt(3, comment.getCar().getId());
         preparedStatement.setString(4, comment.getText());
         preparedStatement.setString(5, comment.getDate_sending());
 

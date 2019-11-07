@@ -1,0 +1,159 @@
+.max-w-260px {
+    max-width: 260px;
+}
+
+.max-w-700px {
+    max-width: 700px;
+}
+
+.max-w-750px {
+    max-width: 750px;
+}
+
+
+.max-h-165px {
+    max-height: 165px;
+}
+
+.max-h-567px{
+    max-height: 567px;
+}
+
+.max-h-300px{
+    min-height: 100px;
+    max-height: 300px;
+}
+
+.max-h-70px{
+    min-height: 70px;
+    max-height: 70px;
+}
+
+.w-509px{
+    width: 509px;
+}
+
+.min-h-500px {
+    min-height: 500px;
+}
+
+.outer {
+    display: flex;
+}
+.inner {
+    margin: auto;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.h-165px {
+    height: 165px;
+}
+
+.img-border {
+    width: 720px;
+    height: 600px;
+}
+
+.h-7px{
+    height: 7px;
+}
+
+.nav-link:hover {
+    color: #0f0;
+    text-decoration: none;
+}
+
+.font-size-11pt{
+    font-size: 11pt;
+}
+
+#inputInformation{
+    margin-left: 12%;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.mt-300px {
+    margin-top: 150px;
+}
+
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+.chat-block {
+    width: 650px;
+    max-width: 650px;
+}
+
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
+
+.img-circle{
+    border-radius: 25px;
+    border: 2px solid darkslategrey;
+}
+
+.speech {
+    background-color: #f0f0f0;
+    max-width: 300px;
+    padding: 4px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    border: 2px solid #666;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 2px 4px #888;
+    -moz-box-shadow: 2px 2px 4px #888;
+    box-shadow: 2px 2px 4px #888;
+}
+
+.font-18px {
+    font-size: 18px;
+}
+
+.font-20px {
+    font-size: 20px;
+}
+
+.font-22px {
+    font-size: 22px;
+}
+
+
+.font-14px {
+    font-size: 14px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+.content {
+    flex: 1 0 auto;
+}
+.footer {
+    flex: 0 0 auto;
+}
+
+.max-w-50{
+    max-width: 50%;
+}

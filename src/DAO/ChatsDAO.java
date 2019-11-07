@@ -5,10 +5,7 @@ import Models.Message;
 import Models.User;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +97,7 @@ public class ChatsDAO extends DAO {
         return messages;
     }
 
-    public boolean checkHasChat(User user_first, User user_second) throws SQLException, IOException, ClassNotFoundException {
+    public int checkHasChat(User user_first, User user_second) throws SQLException, IOException, ClassNotFoundException {
 
         List<Chat> allChats = getAllChats();
 
@@ -111,11 +108,25 @@ public class ChatsDAO extends DAO {
                     (chat.getUser_first().getId() == user_second.getId()
                             && chat.getUser_second().getId() == user_first.getId())
             ) {
-                return true;
+                return chat.getId();
             }
         }
 
-        return false;
+        return -1;
+    }
+
+    public List<Chat> getChatsOfUser(User user) throws SQLException, IOException, ClassNotFoundException {
+
+        List<Chat> allChats = getAllChats();
+        List<Chat> chatsOfUser = new ArrayList<>();
+
+        for (Chat chat : allChats) {
+            if ( chat.getUser_first().getId() == user.getId() || chat.getUser_second().getId() == user.getId()) {
+                chatsOfUser.add(chat);
+            }
+        }
+
+        return chatsOfUser;
     }
 
     public Chat getChat(User user_first, User user_second) throws SQLException, IOException, ClassNotFoundException {
@@ -136,11 +147,38 @@ public class ChatsDAO extends DAO {
         return new Chat();
     }
 
-    public boolean addMessageToBD(Message message) {
+    public boolean addMessageToBD(Message message) throws SQLException, ClassNotFoundException {
+
+        String query = "INSERT INTO public.messages" + "(id, id_sender, id_destuser, text, date_sending, id_chat)" + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        System.out.println(message.getText());
+        PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
+
+        preparedStatement.setInt(1, message.getId());
+        preparedStatement.setInt(2, message.getSender().getId());
+        preparedStatement.setInt(3, message.getDestUser().getId());
+        preparedStatement.setString(4, message.getText());
+        preparedStatement.setString(5, message.getDate_sending());
+        preparedStatement.setInt(6, message.getChat().getId());
+
+        preparedStatement.executeUpdate();
+
         return true;
     }
 
-    public boolean addChatToBD(Chat chat) {
+    public boolean addChatToBD(Chat chat) throws SQLException, ClassNotFoundException {
+
+        String query = "INSERT INTO public.chats" + "(id, id_userfirst, id_usersecond, date_creating)" + "VALUES (?, ?, ?, ?)";
+
+        PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
+
+        preparedStatement.setInt(1, chat.getId());
+        preparedStatement.setInt(2, chat.getUser_first().getId());
+        preparedStatement.setInt(3, chat.getUser_second().getId());
+        preparedStatement.setString(4, chat.getDate_creating());
+
+        preparedStatement.executeUpdate();
+
         return true;
     }
 }

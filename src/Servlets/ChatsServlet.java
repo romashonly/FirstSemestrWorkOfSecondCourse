@@ -1,6 +1,9 @@
 package Servlets;
 
 import DAO.ChatsDAO;
+import DAO.UsersDAO;
+import Helpers.Helper;
+import Models.Chat;
 import Models.Message;
 import Models.User;
 import freemarker.template.Configuration;
@@ -19,48 +22,76 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatsServlet extends HttpServlet {
+
+    private ChatsDAO chatsDAO = new ChatsDAO();
+    private UsersDAO usersDAO = new UsersDAO();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        String textMessageOfUserOne = request.getParameter("messageOfUserOne");
-//        String messageOfUserTwo = request.getParameter("messageOfUserTwo");
-//
-//        Message messageUserOne = new Message();
-//        Message messageUserTwo = new Message();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("current_user");
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
+        try {
+
+            String textOfNewMessage = request.getParameter("newText");
+            Chat chat = chatsDAO.getChat(request.getParameter("id_chat"));
+            User destUser;
+
+            if (user.getId() == chat.getUser_first().getId()) {
+                destUser = chat.getUser_second();
+            }
+            else {
+                destUser = chat.getUser_first();
+            }
+
+            int id = chatsDAO.getAllMessages().size();
+            Message newMessage = new Message(id, user, destUser, chat, textOfNewMessage, "now");
+
+            chatsDAO.addMessageToBD(newMessage);
+
+            response.sendRedirect("/chats?id=" + chat.getId());
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
-        PrintWriter writer = response.getWriter();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("current_user");
+
         response.setContentType("text/html");
 
         String id_chat = request.getParameter("id");
 
-        ChatsDAO chatsDAO = new ChatsDAO();
+        String idDestUser = request.getParameter("idDestUser");
 
         try {
 
             Map<String, Object> root = new HashMap<>();
 
+            root.put("user", user);
+
             if (id_chat != null) {
-                template = cfg.getTemplate("chatsBetweenUsers.ftl");
 
                 root.put("messages", chatsDAO.getMessages(chatsDAO.getChat(id_chat)));
-
+                root.put("chat", chatsDAO.getChat(id_chat));
+                Helper.render(request, response, "chatsBetweenUsers.ftl", root);
             }
             else {
-                template = cfg.getTemplate("chats.ftl");
-
-                root.put("chats", chatsDAO.getAllChats());
-
+                root.put("chats", chatsDAO.getChatsOfUser(user));
+                Helper.render(request, response, "chats.ftl", root);
             }
 
-            template.process(root, writer);
         }
-        catch (TemplateException | SQLException | ClassNotFoundException e) {
+        catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

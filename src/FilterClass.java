@@ -54,8 +54,11 @@ public class FilterClass implements Filter {
                 }
                 chain.doFilter(req, resp);
             }
-            else {
+            else if (!((HttpServletRequest) req).getRequestURI().equals("/catalog") && !((HttpServletRequest) req).getRequestURI().equals("/")) {
                 ((HttpServletResponse) resp).sendRedirect("/login");
+            }
+            else {
+                chain.doFilter(req, resp);
             }
         }
     }

@@ -58,4 +58,22 @@ public class UsersDAO extends DAO {
 
         return true;
     }
+
+    public boolean editUserInfo(User user) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE public.users SET ( login, password, phone_number, name, sername, date_birth, avatar, city) = (?, ?, ?, ?, ?, ?, ?, ?) WHERE id = " + user.getId();
+
+        PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, user.getLogin());
+        preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(3, user.getPhone_number());
+        preparedStatement.setString(4, user.getName());
+        preparedStatement.setString(5, user.getSerName());
+        preparedStatement.setString(6, user.getDate_birth());
+        preparedStatement.setString(7, user.getAvatar());
+        preparedStatement.setString(8, user.getCity());
+
+        preparedStatement.executeUpdate();
+
+        return true;
+    }
 }

@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAO.CarsDAO;
+import Helpers.Helper;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -26,35 +27,38 @@ public class CatalogServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
-
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
 
+        String brand = request.getParameter("brandCar");
+        String model = request.getParameter("modelCar");
+        String minCost = request.getParameter("minCost");
+        String maxCost = request.getParameter("maxCost");
+
         CarsDAO carsDAO = new CarsDAO();
+        Map<String, Object> root = new HashMap<>();
 
         try {
 
-            if (user != null) {
-                template = cfg.getTemplate("catalogUser.ftl");
-            } else {
-                template = cfg.getTemplate("catalogAnonim.ftl");
+            if (brand != null) {
+                root.put("cars", carsDAO.getFilterCars(brand, model, minCost, maxCost));
+            }
+            else {
+                root.put("cars", carsDAO.getAllCars());
             }
 
-            Map<String, Object> root = new HashMap<>();
-            root.put("cars", carsDAO.getAllCars());
+            Helper.render(request, response, "catalog.ftl", root);
 
-            template.process(root, writer);
-        } catch (TemplateException | SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

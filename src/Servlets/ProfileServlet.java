@@ -4,6 +4,7 @@ import DAO.CarsDAO;
 import DAO.ChatsDAO;
 import DAO.CommentsDAO;
 import DAO.UsersDAO;
+import Helpers.Helper;
 import Models.Chat;
 import Models.Comment;
 import Models.Message;
@@ -25,37 +26,31 @@ import java.util.Map;
 
 public class ProfileServlet extends HttpServlet {
 
+    private ChatsDAO chatsDAO = new ChatsDAO();
+    private UsersDAO usersDAO = new UsersDAO();
     private User userForPage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
-        String textOfMessage = request.getParameter("textOfMessage");
-
         try {
-            ChatsDAO chatsDAO = new ChatsDAO();
+            Chat chat;
 
-            if (textOfMessage != null) {
-
-                Chat chat;
-
-                if (!chatsDAO.checkHasChat(user, userForPage)) {
-                    int idChat = chatsDAO.getAllChats().size();
-                    chat = new Chat(idChat, user, userForPage, "now");
-                    chatsDAO.addChatToBD(chat);
-                }
-                else {
-                    chat = chatsDAO.getChat(user, userForPage);
-                }
-
-                int idMessage = chatsDAO.getAllMessages().size();
-                Message message = new Message(idMessage, user, userForPage, chat, textOfMessage, "now");
-                chatsDAO.addMessageToBD(message);
-
-                response.sendRedirect("/chats?id=" + chat.getId());
+            if (chatsDAO.checkHasChat(user, userForPage) < 0) {
+                int idChat = chatsDAO.getAllChats().size();
+                chat = new Chat(idChat, user, userForPage, "now");
+                chatsDAO.addChatToBD(chat);
             }
+            else {
+                chat = chatsDAO.getChat(user, userForPage);
+            }
+
+            response.sendRedirect("/chats?id=" + chat.getId());
         }
         catch(SQLException | ClassNotFoundException e){
             e.printStackTrace();
@@ -64,49 +59,40 @@ public class ProfileServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
-
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
-
-        UsersDAO usersDAO = new UsersDAO();
 
         String id_otherUser = request.getParameter("id");
 
-        if (user != null) {
-            try {
-                template = cfg.getTemplate("profile.ftl");
-                Map<String, Object> root = new HashMap<>();
+        try {
 
-                if (id_otherUser != null) {
-                    userForPage = usersDAO.getUserFromListOfUsers(id_otherUser);
+            Map<String, Object> root = new HashMap<>();
+
+            if (id_otherUser != null) {
+                if (user != null && id_otherUser.equals(Integer.toString(user.getId()))) {
+                    userForPage = user;
+                    root.put("other_user", "false");
                 }
                 else {
-                    userForPage = user;
+                    userForPage = usersDAO.getUserFromListOfUsers(id_otherUser);
+                    root.put("other_user", "true");
                 }
-
-                root.put("id", userForPage.getId());
-                root.put("login", userForPage.getLogin());
-                root.put("phone_number", userForPage.getPhone_number());
-                root.put("name", userForPage.getName());
-                root.put("serName", userForPage.getSerName());
-                root.put("date_birth", userForPage.getDate_birth());
-                root.put("date_registration", userForPage.getDate_registration());
-                root.put("avatar", userForPage.getAvatar());
-                root.put("city", userForPage.getCity());
-
-                template.process(root, writer);
-            } catch (TemplateException | SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
+            }
+            else {
+                userForPage = user;
+                root.put("other_user", "false");
             }
 
-        }
-        else {
-            response.sendRedirect("/login");
+            root.put("user", userForPage);
+
+            Helper.render(request, response, "profile.ftl", root);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAO.CarsDAO;
+import Helpers.Helper;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -24,27 +25,12 @@ public class ProjectInfoServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("current_user");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
-
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
 
-        try {
-
-            if (user != null) {
-                template = cfg.getTemplate("infoProjectUser.ftl");
-            }
-            else {
-                template = cfg.getTemplate("infoProjectAnonim.ftl");
-            }
-
-            template.process(null, writer);
-        } catch (TemplateException e) {
-            e.printStackTrace();
-        }
+        Map<String, Object> root = new HashMap<>();
+        Helper.render(request, response, "infoProject.ftl", root);
     }
 }

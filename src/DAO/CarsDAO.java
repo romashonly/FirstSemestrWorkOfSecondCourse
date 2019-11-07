@@ -63,6 +63,43 @@ public class CarsDAO extends DAO {
         return cars;
     }
 
+    public List<Car> getFilterCars(String brand, String model, String minCost, String maxCost) throws SQLException, IOException, ClassNotFoundException {
+
+        List<Car> allCars = getAllCars();
+        List<Car> resultCars = new ArrayList<>();
+
+        if (!minCost.equals("") && !maxCost.equals("")) {
+            for (Car car : allCars) {
+                if (car.getBrand_car().equals(brand) && car.getModel_car().equals(model) && car.getCost() >= Integer.parseInt(minCost) && car.getCost() <= Integer.parseInt(maxCost)) {
+                    resultCars.add(car);
+                }
+            }
+        }
+        else if (!maxCost.equals("")) {
+            for (Car car : allCars) {
+                if (car.getBrand_car().equals(brand) && car.getModel_car().equals(model) && car.getCost() <= Integer.parseInt(maxCost)) {
+                    resultCars.add(car);
+                }
+            }
+        }
+        else if (!minCost.equals("")) {
+            for (Car car : allCars) {
+                if (car.getBrand_car().equals(brand) && car.getModel_car().equals(model) && car.getCost() >= Integer.parseInt(minCost)) {
+                    resultCars.add(car);
+                }
+            }
+        }
+        else {
+            for (Car car : allCars) {
+                if (car.getBrand_car().equals(brand) && car.getModel_car().equals(model)) {
+                    resultCars.add(car);
+                }
+            }
+        }
+
+        return resultCars;
+    }
+
     public Car getCarFromAllCars(String id_car) throws SQLException, IOException, ClassNotFoundException {
 
         List<Car> cars = getAllCars();
@@ -78,13 +115,27 @@ public class CarsDAO extends DAO {
         return new Car();
     }
 
+    public List<Car> getCarsOfUser(User user) throws SQLException, ClassNotFoundException, IOException {
+
+        List<Car> allCars = new CarsDAO().getAllCars();
+        List<Car> myCars = new ArrayList<>();
+
+        for (Car car : allCars) {
+            if (car.getOwner().getId() == user.getId()) {
+                myCars.add(car);
+            }
+        }
+
+        return myCars;
+    }
+
     public boolean addCarsToBD(Car car) throws SQLException, ClassNotFoundException {
 
         String query = "INSERT INTO public.cars" + "(id, id_owner, brand_car, model_car, year_issue, date_posting, color, mileage, engine, body_type, gearbox_type, driveunit_type, rudder_type, condition_type, image, cost)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, Integer.toString(car.getId()));
-        preparedStatement.setString(2, Integer.toString(car.getOwner().getId()));
+        preparedStatement.setInt(1, car.getId());
+        preparedStatement.setInt(2, car.getOwner().getId());
         preparedStatement.setString(3, car.getBrand_car());
         preparedStatement.setString(4, car.getModel_car());
         preparedStatement.setString(5, car.getYear_issue());
@@ -98,7 +149,7 @@ public class CarsDAO extends DAO {
         preparedStatement.setString(13, car.getRudder_type());
         preparedStatement.setString(14, car.getCondition_type());
         preparedStatement.setString(15, car.getImage());
-        preparedStatement.setString(16, Integer.toString(car.getCost()));
+        preparedStatement.setInt(16, car.getCost());
 
         preparedStatement.executeUpdate();
 

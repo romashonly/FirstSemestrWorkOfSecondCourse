@@ -1,34 +1,27 @@
 package Servlets;
 
 import DAO.UsersDAO;
+import Helpers.Helper;
 import Models.User;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
 
-    @Override
-    public void init() {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
-        cfg.setServletContextForTemplateLoading(this.getServletContext(), "WEB-INF/templates");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
-        getServletContext().setAttribute("cfg", cfg);
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         String remember_me = request.getParameter("remember_me");
 
@@ -77,15 +70,16 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("current_user");
 
         PrintWriter writer = response.getWriter();
 
         response.setContentType("text/html");
-
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
+        Map<String, Object> root = new HashMap<>();
 
         if (request.getRequestURI().equals("/logout")) {
 
@@ -103,13 +97,7 @@ public class LoginServlet extends HttpServlet {
         }
         else if (request.getRequestURI().equals("/wants_logout")) {
 
-            template = cfg.getTemplate("consentLogout.ftl");
-
-            try {
-                template.process(null, writer);
-            } catch (TemplateException e) {
-                e.printStackTrace();
-            }
+            Helper.render(request, response, "consentLogout.ftl", root);
         }
         else {
             if (user != null) {
@@ -117,13 +105,7 @@ public class LoginServlet extends HttpServlet {
             }
             else {
 
-                template = cfg.getTemplate("login.ftl");
-
-                try {
-                    template.process(null, writer);
-                } catch (TemplateException e) {
-                    e.printStackTrace();
-                }
+                Helper.render(request, response, "login.ftl", root);
             }
         }
     }

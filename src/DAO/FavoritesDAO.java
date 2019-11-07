@@ -54,12 +54,12 @@ public class FavoritesDAO extends DAO {
     }
 
     public boolean addFavoriteToBD(Favorite favorite) throws SQLException, ClassNotFoundException {
-        String query = "INSERT INTO public.favorite" + "(id, id_car, id_user, date_adding)" + "VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO public.favorites" + "(id, id_car, id_user, date_adding)" + "VALUES (?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = ConnectionSingleton.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, Integer.toString(favorite.getId()));
-        preparedStatement.setString(2, Integer.toString(favorite.getCar().getId()));
-        preparedStatement.setString(3, Integer.toString(favorite.getUser().getId()));
+        preparedStatement.setInt(1, favorite.getId());
+        preparedStatement.setInt(2, favorite.getCar().getId());
+        preparedStatement.setInt(3, favorite.getUser().getId());
         preparedStatement.setString(4, favorite.getDate_adding());
 
         preparedStatement.executeUpdate();

@@ -84,4 +84,44 @@ public class User {
     public String getPhone_number() {
         return phone_number;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSerName(String serName) {
+        this.serName = serName;
+    }
+
+    public void setDate_birth(String date_birth) {
+        this.date_birth = date_birth;
+    }
+
+    public void setDate_registration(String date_registration) {
+        this.date_registration = date_registration;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }

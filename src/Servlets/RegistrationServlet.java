@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAO.UsersDAO;
+import Helpers.Helper;
 import Models.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -19,9 +20,12 @@ import java.util.Map;
 
 @MultipartConfig
 public class RegistrationServlet extends HttpServlet {
+
+    private UsersDAO usersDAO = new UsersDAO();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.setCharacterEncoding("UTF-8"); // кодировка ответа
+        response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
@@ -32,7 +36,6 @@ public class RegistrationServlet extends HttpServlet {
         }
         else {
             try {
-                UsersDAO usersDAO = new UsersDAO();
 
                 int id = usersDAO.getAllUsers().size();
                 String login = request.getParameter("login");
@@ -82,7 +85,7 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.setCharacterEncoding("UTF-8"); // кодировка ответа
+        response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
@@ -91,20 +94,13 @@ public class RegistrationServlet extends HttpServlet {
         String type = request.getParameter("type");
         String completedFields = request.getParameter("completed");
 
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
-        Configuration cfg = (Configuration) getServletContext().getAttribute("cfg");
-        Template template;
+
+        Map<String, Object> root = new HashMap<>();
 
         if (type != null && type.equals("ok")) {
 
-            template = cfg.getTemplate("registrationOK.ftl");
-
-            try {
-                template.process(null, writer);
-            } catch (TemplateException e) {
-                e.printStackTrace();
-            }
+            Helper.render(request, response, "registrationOK.ftl", root);
         }
         else {
             if (user != null) {
@@ -118,16 +114,9 @@ public class RegistrationServlet extends HttpServlet {
                     System.out.println(messageCompletedFields);
                 }
 
-                Map<String, Object> root = new HashMap<>();
                 root.put("message", messageCompletedFields);
 
-                template = cfg.getTemplate("registration.ftl");
-
-                try {
-                    template.process(root, writer);
-                } catch (TemplateException e) {
-                    e.printStackTrace();
-                }
+                Helper.render(request, response, "registration.ftl", root);
             }
         }
     }
